@@ -29,15 +29,14 @@ class MyTaskPVP(PVP):
     """
 
     # Set this to the name of the task
-    TASK_NAME = "my-task"
+    TASK_NAME = "sentimentclassification"
 
     # Set this to the verbalizer for the given task: a mapping from the task's labels (which can be obtained using
     # the corresponding DataProcessor's get_labels method) to tokens from the language model's vocabulary
     VERBALIZER = {
-        "1": ["World"],
-        "2": ["Sports"],
-        "3": ["Business"],
-        "4": ["Tech"]
+        "1.0": ["positive", "good"],
+        "0.0": ["neutral"],
+        "-1.0": ["negative", "bad"]
     }
 
     def get_parts(self, example: InputExample):
@@ -69,3 +68,4 @@ class MyTaskPVP(PVP):
 
 # register the PVP for this task with its name
 PVPS[MyTaskPVP.TASK_NAME] = MyTaskPVP
+print("FINISH")

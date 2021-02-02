@@ -30,28 +30,28 @@ class MyTaskDataProcessor(DataProcessor):
     """
 
     # Set this to the name of the task
-    TASK_NAME = "my-task"
+    TASK_NAME = "sentimentclassification"
 
     # Set this to the name of the file containing the train examples
-    TRAIN_FILE_NAME = "train.csv"
+    TRAIN_FILE_NAME = "../examples/train.txt"
 
     # Set this to the name of the file containing the dev examples
-    DEV_FILE_NAME = "dev.csv"
+    DEV_FILE_NAME = "../examples/valence_scores_fin.txt"
 
     # Set this to the name of the file containing the test examples
-    TEST_FILE_NAME = "test.csv"
+    #TEST_FILE_NAME = "test.csv"
 
     # Set this to the name of the file containing the unlabeled examples
-    UNLABELED_FILE_NAME = "unlabeled.csv"
+    UNLABELED_FILE_NAME = "../examples/sm_text_sentiment_training_new.txt"
 
     # Set this to a list of all labels in the train + test data
-    LABELS = ["1", "2", "3", "4"]
+    LABELS = ["-1.0", "0.0", "1.0"]
 
     # Set this to the column of the train/test csv files containing the input's text a
     TEXT_A_COLUMN = 1
 
     # Set this to the column of the train/test csv files containing the input's text b or to -1 if there is no text b
-    TEXT_B_COLUMN = 2
+    TEXT_B_COLUMN = -1
 
     # Set this to the column of the train/test csv files containing the input's gold label
     LABEL_COLUMN = 0
@@ -78,8 +78,8 @@ class MyTaskDataProcessor(DataProcessor):
         :param data_dir: the directory in which the test data can be found
         :return: a list of test examples
         """
-        return self._create_examples(os.path.join(data_dir, MyTaskDataProcessor.TEST_FILE_NAME), "test")
-
+        # return self._create_examples(os.path.join(data_dir, MyTaskDataProcessor.TEST_FILE_NAME), "test")
+        raise NotImplementedError()
     def get_unlabeled_examples(self, data_dir) -> List[InputExample]:
         """
         This method loads unlabeled examples from a file with name `UNLABELED_FILE_NAME` in the given directory.
@@ -97,7 +97,7 @@ class MyTaskDataProcessor(DataProcessor):
         examples = []
 
         with open(path) as f:
-            reader = csv.reader(f, delimiter=',')
+            reader = csv.reader(f, delimiter=':->')
             for idx, row in enumerate(reader):
                 guid = "%s-%s" % (set_type, idx)
                 label = row[MyTaskDataProcessor.LABEL_COLUMN]
@@ -111,3 +111,4 @@ class MyTaskDataProcessor(DataProcessor):
 
 # register the processor for this task with its name
 PROCESSORS[MyTaskDataProcessor.TASK_NAME] = MyTaskDataProcessor
+print("FINISH")
